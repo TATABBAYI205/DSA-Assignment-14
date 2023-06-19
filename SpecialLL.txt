@@ -1,0 +1,73 @@
+package Assignment14;
+
+class Node4
+{
+    int data;
+    Node4 next;
+    Node4 random;
+    Node4(int data) 
+    {
+        this.data = data;
+        this.next = null;
+        this.random = null;
+    }
+}
+public class SpecialLL 
+{
+    Node4 head;
+    Node4 copyRandomList(Node4 head)
+    {
+        if (head == null)
+            return null;
+        Node4 curr = head;
+        while (curr != null) 
+        {
+            Node4 newNode = new Node4(curr.data);
+            newNode.next = curr.next;
+            curr.next = newNode;
+            curr = newNode.next;
+        }
+        curr = head;
+        while (curr != null)
+        {
+            if (curr.random != null)
+                curr.next.random = curr.random.next;
+            curr = curr.next.next;
+        }
+        curr = head;
+        Node4 copiedHead = head.next;
+        Node4 copiedCurr = copiedHead;
+        while (curr != null) 
+        {
+            curr.next = curr.next.next;
+            if (copiedCurr.next != null)
+                copiedCurr.next = copiedCurr.next.next;
+            curr = curr.next;
+            copiedCurr = copiedCurr.next;
+        }
+        return copiedHead;
+    }
+    void printList(Node4 node)
+    {
+        while (node != null) 
+        {
+            int randomData = (node.random != null) ? node.random.data : -1;
+            System.out.println("Data: " + node.data + ", Random Data: " + randomData);
+            node = node.next;
+        }
+    }
+    public static void main(String[] args) 
+    {
+        SpecialLL list = new SpecialLL();
+        list.head = new Node4(1);
+        list.head.next = new Node4(2);
+        list.head.next.next = new Node4(3);
+        list.head.next.next.next = new Node4(4);
+        list.head.random = list.head.next.next;
+        list.head.next.random = list.head.next.next.next;
+
+        Node4 copiedList = list.copyRandomList(list.head);
+        list.printList(copiedList);
+    }
+}
+

@@ -1,0 +1,62 @@
+package Assignment14;
+
+class Node2
+{
+	int data;
+	Node2 next;
+	Node2(int data)
+	{
+		this.data=data;
+		this.next= null;
+	}
+}
+public class DigitCorrespondLL 
+{
+	Node2 head;
+	void addOne()
+	{
+		Node2 currentNode= null;
+		Node2 temp = head;
+		while(temp != null)
+		{
+			if(temp.data<9)
+				currentNode =temp;
+			temp= temp.next;
+		}
+		if(currentNode != null)
+		{
+			currentNode.data++;
+			temp=currentNode.next;
+			while(temp != null)
+			{
+				temp.data=0;
+				temp=temp.next;
+			}
+		}
+		else
+		{
+			Node2 newNode= new Node2(1);
+			newNode.next =head;
+			head = newNode;
+		}	
+		}
+		void PrintList()
+		{
+			Node2 curr= head;
+			while(curr != null)
+			{
+				System.out.print(curr.data+" ");
+				curr = curr.next;
+			}
+			System.out.println( );
+		}
+		public static void main(String[] args) 
+		{
+			DigitCorrespondLL dcll= new DigitCorrespondLL();
+			dcll.head = new Node2(4);
+			dcll.head.next = new Node2(5);
+			dcll.head.next.next = new Node2(6);
+			dcll.addOne();
+			dcll.PrintList();
+		}
+}

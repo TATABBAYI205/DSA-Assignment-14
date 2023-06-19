@@ -1,0 +1,53 @@
+package Assignment14;
+
+import java.util.*;
+
+class Node7 
+{
+    int val;
+    Node7 next;
+    Node7(int val) 
+    {
+        this.val = val;
+        this.next = null;
+    }
+}
+public class NextGreaterNode 
+{
+    public int[] nextLargerNodes(Node7 head) 
+    {
+        List<Integer> list = new ArrayList<>();
+        Node7 current = head;
+        while (current != null)
+        {
+            list.add(current.val);
+            current = current.next;
+        }        
+        int[] answer = new int[list.size()];
+        Stack<Integer> stack = new Stack<>();        
+        for (int i = list.size() - 1; i >= 0; i--) 
+        {
+            while (!stack.isEmpty() && list.get(i) >= list.get(stack.peek())) {
+                stack.pop();
+            }         
+            if (!stack.isEmpty()) 
+            {
+                answer[i] = list.get(stack.peek());
+            }          
+            stack.push(i);
+        }       
+        return answer;
+    }
+    public static void main(String[] args) 
+    {
+        NextGreaterNode solution = new NextGreaterNode();
+        Node7 head = new Node7(2);
+        Node7 node1 = new Node7(1);
+        Node7 node2 = new Node7(5);
+        head.next = node1;
+        node1.next = node2;
+        int[] result = solution.nextLargerNodes(head);
+        System.out.println(Arrays.toString(result));
+    }
+}
+

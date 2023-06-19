@@ -1,0 +1,79 @@
+package Assignment14;
+
+class Node3
+{
+	int data;
+	Node3 next;
+	Node3 bottom;
+	Node3(int data)
+	{
+		this.data=data;
+		this.next= null;
+		this.bottom = null;
+	}
+}
+public class SubLL 
+{
+	Node3 head;
+	Node3 merge(Node3 list1, Node3 list2) 
+	{
+        if (list1 == null)
+            return list2;
+        if (list2 == null)
+            return list1;
+        Node3 result;
+        if (list1.data <= list2.data) 
+        {
+            result = list1;
+            result.bottom = merge(list1.bottom, list2);
+        } 
+        else 
+        {
+            result = list2;
+            result.bottom = merge(list1, list2.bottom);
+        }
+        result.next = null;
+        return result;
+	}
+	Node3 flatten(Node3 root)
+	{
+		if(root == null  || root.next == null)
+			return root;
+		root.next = flatten(root.next);
+		root = merge(root , root.next);
+		return root;
+	}	
+	void printList(Node3 node)
+	{
+		while(node != null)
+		{
+			System.out.print(node.data +" ");
+			node = node.bottom;
+		}
+		System.out.println();
+	}
+	public static void main(String[] args) 
+	{
+		SubLL ll= new SubLL();
+		 ll.head = new Node3(5);
+	        ll.head.next = new Node3(10);
+	        ll.head.next.next = new Node3(19);
+	        ll.head.next.next.next = new Node3(28);
+
+	        ll.head.bottom = new Node3(7);
+	        ll.head.next.bottom = new Node3(20);
+	        ll.head.next.next.bottom = new Node3(22);
+	        ll.head.next.next.next.bottom = new Node3(35);
+
+	        ll.head.bottom.bottom = new Node3(8);
+	        ll.head.next.bottom.bottom = new Node3(50);
+	        ll.head.next.next.bottom.bottom = new Node3(40);
+
+	        ll.head.bottom.bottom.bottom = new Node3(30);
+	        ll.head.next.bottom.bottom.bottom = new Node3(45);
+	        
+	        Node3 flattenedList = ll.flatten(ll.head);
+	        ll.printList(flattenedList);		
+	}
+
+}

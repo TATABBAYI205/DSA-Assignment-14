@@ -1,0 +1,56 @@
+package Assignment14;
+
+class Node5 
+{
+    int val;
+    Node5  next;
+    Node5 (int val) 
+    {
+        this.val = val;
+        this.next = null;
+    }
+}
+public class SinglyLL 
+{
+	Node5  head;
+	Node5  oddEvenList(Node5  head) 
+    {
+        if (head == null || head.next == null)
+            return head;
+        Node5  oddHead = head;
+        Node5  evenHead = head.next;
+        Node5  odd = oddHead;
+        Node5  even = evenHead;
+        while (even != null && even.next != null) 
+        {
+            odd.next = even.next;
+            odd = odd.next;
+            even.next = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return oddHead;
+    }
+    void printList(Node5  node) 
+    {
+        while (node != null) 
+        {
+            System.out.print(node.val + " ");
+            node = node.next;
+        }
+        System.out.println();
+    }
+    public static void main(String[] args) 
+    {
+        SinglyLL list = new SinglyLL();
+        list.head = new Node5 (1);
+        list.head.next = new Node5 (2);
+        list.head.next.next = new Node5 (3);
+        list.head.next.next.next = new Node5 (4);
+        list.head.next.next.next.next = new Node5 (5);
+
+        Node5  reorderedList = list.oddEvenList(list.head);
+        list.printList(reorderedList);
+    }
+}
+

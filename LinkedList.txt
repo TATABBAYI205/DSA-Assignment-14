@@ -1,0 +1,88 @@
+package Assignment14;
+
+class Node6 
+{
+    int data;
+    Node6 next;    
+    Node6(int data)
+    {
+        this.data = data;
+        next = null;
+    }
+}
+class LinkedList 
+{
+    Node6 head;    
+    LinkedList() 
+    {
+        head = null;
+    }
+    void addNode(int data) 
+    {
+        Node6 newNode = new Node6(data);    
+        if (head == null) 
+        {
+            head = newNode;
+        } 
+        else 
+        {
+            Node6 temp = head;
+            while (temp.next != null) 
+            {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+    }
+    void leftShift(int k) 
+    {
+        if (head == null || k <= 0)
+        {
+            return;
+        }      
+        Node6 current = head;
+        for (int i = 1; i < k && current != null; i++) 
+        {
+            current = current.next;
+        }        
+        if (current == null) 
+        {
+            return;
+        }       
+        Node6 kthNode = current;
+        while (current.next != null)
+        {
+            current = current.next;
+        }     
+        current.next = head;
+        head = kthNode.next;
+        kthNode.next = null;
+    }
+    void printList() 
+    {
+        Node6 temp = head;
+        while (temp != null) 
+        {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+}
+public class LeftShiftKNode 
+{
+    public static void main(String[] args) 
+    {
+        LinkedList list = new LinkedList();
+        int[] values = {2, 4, 7, 8, 9};
+        int k = 3;    
+        for (int value : values) 
+        {
+            list.addNode(value);
+        }      
+    
+        list.leftShift(k);    
+        list.printList();
+    }
+}
+

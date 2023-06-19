@@ -1,0 +1,74 @@
+package Assignment14;
+
+import java.util.*;
+
+class Node8
+{
+    int val;
+    Node8 next;
+    Node8(int val) 
+    {
+        this.val = val;
+        this.next = null;
+    }
+}
+public class DeleteSequences 
+{
+    public Node8 removeZeroSumSublists(Node8 head) 
+    {
+    	Node8 dummy = new Node8(0);
+        dummy.next = head;      
+        int prefixSum = 0;
+        Map<Integer, Node8> map = new HashMap<>();
+        map.put(0, dummy);       
+        Node8 current = dummy;        
+        while (current != null)
+        {
+            prefixSum += current.val;            
+            if (map.containsKey(prefixSum)) 
+            {
+            	Node8 start = map.get(prefixSum).next;
+                int sum = prefixSum;               
+                while (start != current) 
+                {
+                    sum += start.val;
+                    map.remove(sum);
+                    start = start.next;
+                }               
+                map.get(prefixSum).next = current.next;
+            } 
+            else
+            {
+                map.put(prefixSum, current);
+            }            
+            current = current.next;
+        }     
+        return dummy.next;
+    }
+    public static void main(String[] args) 
+    {
+        DeleteSequences solution = new DeleteSequences();
+        Node8 head = new Node8(1);
+        Node8 node1 = new Node8(2);
+        Node8 node2 = new Node8(-3);
+        Node8 node3 = new Node8(3);
+        Node8 node4 = new Node8(1);
+        head.next = node1;
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        Node8 result = solution.removeZeroSumSublists(head);
+        printLinkedList(result);
+    }
+    private static void printLinkedList(Node8 head) 
+    {
+    	Node8 current = head;
+        while (current != null) 
+        {
+            System.out.print(current.val + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
+
